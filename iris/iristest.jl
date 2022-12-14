@@ -9,7 +9,7 @@ using Pkg
 Pkg.activate(".")
 Pkg.instantiate()
 
-deps=["RDatasets","Gadfly","Mongoc","JSON"]
+deps=["RDatasets","Gadfly","JSON"]
 
 if abspath(PROGRAM_FILE)==@__FILE__
   for p in deps
