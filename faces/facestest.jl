@@ -89,7 +89,7 @@ function onlyonce1(F)
   L=zeros(Bool,n)
   # Loop over faces 
   # i got misbehaving syntax highlighting w/ comments
-  # in the end of line
+  # in the end of line (in jupyter notebook, but switched to the micro editor...)
   for q=1:n 
     L[q]=count(==(F[q]),F)==1
   end

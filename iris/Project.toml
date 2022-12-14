@@ -1,0 +1,4 @@
+[deps]
+Gadfly = "c91e804a-d5a3-530f-b6f0-dfbca275c004"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+RDatasets = "ce6b1742-4840-55fa-b093-852dadbb1d8b"
