@@ -1,2 +1,2 @@
-# small projects
+# small projects (environments in julia)
 
