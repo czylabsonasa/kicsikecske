@@ -1,2 +1,2 @@
-# small projects (environments in julia)
+# yocto-projects (environments in julia)
 
