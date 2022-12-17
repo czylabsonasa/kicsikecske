@@ -16,16 +16,17 @@ readit(input)=
     for row in split(input,"\n",keepempty=false)]
 
 
+dirs=Dict(
+  "D"=>(1,0),
+  "U"=>(-1,0),
+  "L"=>(0,-1),
+  "R"=>(0,1)
+)
+
+
 function part1(input)
   input=readit(input)
 
-  dirs=Dict(
-    "D"=>(1,0),
-    "U"=>(-1,0),
-    "L"=>(0,-1),
-    "R"=>(0,1)
-  )
-  
   vis=Set{Tuple{Int,Int}}()
   H,T=(0,0),(0,0)
   push!(vis,T)
@@ -52,13 +53,6 @@ println("input:  ",part1(read("input",String)))
 function part2(input)
   input=readit(input)
 
-  dirs=Dict(
-    "D"=>(1,0),
-    "U"=>(-1,0),
-    "L"=>(0,-1),
-    "R"=>(0,1)
-  )
-  
   vis=Set{Tuple{Int,Int}}()
   HT=fill((0,0),10)
   push!(vis,(0,0))
