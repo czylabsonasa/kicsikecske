@@ -20,20 +20,20 @@ catch
 end
 
 target="aoc2022d$(d)"
-try
+if !isdir(target)
   mkdir(target)
-catch
-  println("already exists...")
-  exit(4)
 end
 
-cp("../config.jl","$(target)/config.jl")
-cp("temp.jl","$(target)/$(target).jl")
+
+if !isfile("$(target)/config.jl")
+  #cp("config.jl","$(target)/config.jl")
+  cd("$(target)")
+  symlink("../config.jl","config.jl")
+  cd("..")
+end
+
+if !isfile("$(target)/$(target).jl")
+  cp("temp.jl","$(target)/$(target).jl")
+end
 
 println(stderr,"OK!")
-
-
-
-
-
-

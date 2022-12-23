@@ -5,11 +5,15 @@ using Pkg
 Pkg.activate(".")
 Pkg.instantiate()
 
-if isdefined(Main,:deps) && deps>[]
-  for p in deps
-    Pkg.add(p)
-  end
+deps=[]
 
+for p in deps
+  Pkg.add(p)
+end
+
+
+if deps>[]
   useit="using "*join(deps,",")
   Meta.parse(useit)|>eval
 end
+
