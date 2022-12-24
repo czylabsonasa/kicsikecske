@@ -1,7 +1,7 @@
 #!/home/nosy/bin/julia
 
 if length(ARGS)!=1
-  println("i need 1(one) number (not a hero)...")
+  println("i need a number (not a hero)...")
   exit(1)
 end
 
@@ -19,21 +19,18 @@ catch
   exit(3)
 end
 
-target="aoc2022d$(d)"
+target="day$(d)"
 if !isdir(target)
   mkdir(target)
 end
 
 
-if !isfile("$(target)/config.jl")
-  #cp("config.jl","$(target)/config.jl")
-  cd("$(target)")
-  symlink("../config.jl","config.jl")
-  cd("..")
-end
-
 if !isfile("$(target)/$(target).jl")
-  cp("temp.jl","$(target)/$(target).jl")
+  temp=replace(read("temp.jl",String),
+    "__DAY__"=>target)
+  open("$(target)/$(target).jl","w") do f
+    write(f,temp)
+  end
 end
 
 println(stderr,"OK!")

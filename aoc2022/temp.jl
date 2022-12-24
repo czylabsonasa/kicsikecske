@@ -1,18 +1,14 @@
-include("config.jl")
-
-sample="""
-"""
-
-
-readit(input)=
-  [cmd for cmd in split(input,"\n",keepempty=false)]
+function __DAY__()
+  readit(input)=
+    [cmd for cmd in split(input,"\n",keepempty=false)]
 
 
-function part1(input)
-  input=readit(input)
-end
+  function part1(input)
+    input=readit(input)
+  end # of part1
 
+  function part2(input)
+    input=readit(input)
+  end # of part2
 
-println("part1")
-println("sample: ",part1(sample)) # 13140
-println("input:  ",part1(read("input",String)))
+end # __DAY__
