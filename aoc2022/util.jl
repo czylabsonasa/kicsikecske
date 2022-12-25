@@ -17,7 +17,7 @@ function mktable(akt,part,n_cases,part_name)
     et=time()
     ans=part("$(akt)/$(c).in")
     et=time()-et
-    
+
     res[c,2]=string(ans)
     res[c,3]=if isfile("$(akt)/$(part_name).$(c).out")
       read("$(akt)/$(part_name).$(c).out",String)
