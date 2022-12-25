@@ -1,11 +1,6 @@
 #!/home/nosy/bin/julia
-msg(x)=printstyled(x,color=:light_cyan)
-function mktictoc()
-  past=[]
-  tic()=push!(past,time())
-  toc()=past>[] ? time()-pop!(past) : 0.0
-  tic,toc
-end
+include("util.jl")
+
 tic,toc=mktictoc()
 
 
@@ -13,27 +8,41 @@ tic()
 cl_pars=length(ARGS)>0 ? ARGS : nothing
 dbg=false
 deps=[
-  "DataStructures", # day11: Queue
+  "DataStructures", # 11,12: Queue
   "Printf","PrettyTables" # 
 
 ]
 include("config.jl")
-include("util.jl")
+include("lib.jl")
 
-msg("Get up: $(round(toc(),digits=2)) sec\n")
-
+msg("getting up: $(round(toc(),digits=2)) sec\n")
 
 
 for akt in cl_pars
   tic()
   include("$(akt)/$(akt).jl")
   part1,part2,n_cases=eval(Meta.parse("$(akt)()"))
-  msg("Compile $(akt).jl: $(round(toc(),digits=2)) sec\n")
 
-  tic()
-  (part1!==nothing) && mktable(akt,part1,n_cases,"part1")
-  (part2!==nothing) && mktable(akt,part2,n_cases,"part2")
-  msg("Execute+prettytable: $(round(toc(),digits=2)) sec\n")
-  
+  printstyled("\n"*"-o-"^15*"\n",color=40)
+  msg(" include $(akt).jl: $(round(toc(),digits=2)) sec\n")
+  printstyled("-o-"^15*"\n\n",color=40)
+
+  for (part,part_name) in [(part1,"part1"),(part2,"part2")] 
+    (part===nothing) && continue
+    msg("  $(part_name)\n")
+    what=(akt=akt,part=part,n_cases=n_cases,part_name=part_name)
+    tic()
+    res=runit(what)
+    msg("   run:   $(round(toc(),digits=2))\n")
+
+    tic()
+    status=evalit(what,res)
+    msg("   eval:  $(round(toc(),digits=2))\n")
+
+    tic()
+    printit(what,res,status)
+    msg("   print: $(round(toc(),digits=2))\n\n")
+  end
+ 
 end
 
