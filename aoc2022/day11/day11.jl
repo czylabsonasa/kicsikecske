@@ -58,7 +58,7 @@ function day11()
 
   # BigInt is too slow/consumes too much memory (old^2)
   # the items are transformed to a list of remainders (remlists)
-  function part2(input; R=1000) 
+  function part2(input; R=10000) 
     monkeys=readit(input)
     M=length(monkeys)
 

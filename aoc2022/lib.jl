@@ -4,11 +4,11 @@ using PrettyTables
 function runit(what)
   akt=what.akt
   part=what.part
-  n_cases=what.n_cases
+  cases=what.cases
   
   res=[]
   tic,toc=mktictoc()
-  for c in 1:n_cases
+  for c in cases
     case="$(c).in"
 
     tic()
@@ -21,21 +21,21 @@ function runit(what)
 end
 
 function evalit(what,res)
-  n_cases=what.n_cases
+  cases=what.cases
   akt=what.akt
   part_name=what.part_name
-  status=fill("",n_cases)
-  for c in 1:n_cases
+  status=fill("",length(cases))
+  for (i,c) in enumerate(cases)
     if !isfile("$(akt)/$(part_name).$(c).out")
-      status[c]="N/A"
+      status[i]="N/A"
       continue
     end
     expected=read("$(akt)/$(part_name).$(c).out",String)|>strip
     #printstyled("$(expected) vs $(res[c].got)\n" ,color=:red)
-    if expected==res[c].got
-      status[c]="OK"
+    if expected==res[i].got
+      status[i]="OK"
     else
-      status[c]="WA"
+      status[i]="WA"
     end
   end
   status
@@ -48,7 +48,27 @@ function printit(what,res,status)
                           crayon = crayon"blue bold" )
 
 
-  n_cases=what.n_cases
+  h3crayon(data,i,j)=if x=="OK"
+      crayon"green"
+    elseif x=="WA"
+      crayon"red"
+    else
+      crayon"yellow"
+    end
+
+  # is it possible to Highlight by content?
+  # a very ugly approach:
+  hOK = Highlighter(f=(data, i, j)->(i>2) && (j==3) && data[i,j]=="OK",
+                          crayon = crayon"green" )
+
+  hWA = Highlighter(f=(data, i, j)->(i>2) && (j==3) && data[i,j]=="WA",
+                          crayon = crayon"red" )
+
+  hNA = Highlighter(f=(data, i, j)->(i>2) && (j==3) && data[i,j]=="N/A",
+                          crayon = crayon"yellow" )
+
+
+  cases=what.cases
   akt=what.akt
   part_name=what.part_name
 
@@ -57,19 +77,19 @@ function printit(what,res,status)
     "" akt part_name "";
     "case" "got" "status" "elapsed(sec)"
   ]
-  data=fill("",n_cases,4)
-  for c in 1:n_cases
-    data[c,1]=res[c].case
-    data[c,2]=res[c].got
-    data[c,3]=status[c]
-    data[c,4]=@sprintf "%.2e" res[c].elapsed
+  data=fill("",length(cases),4)
+  for i in 1:length(cases)
+    data[i,1]=res[i].case
+    data[i,2]=res[i].got
+    data[i,3]=status[i]
+    data[i,4]=@sprintf "%.2e" res[i].elapsed
   end
 
   data=vcat(header,data)
   pretty_table(
     data;
-    highlighters=(h1,h2),
+    highlighters=(h1,h2,hOK,hWA,hNA),
     show_header=false,
-    linebreaks=true,hlines=1:n_cases+size(header,1)
+    linebreaks=true,hlines=1:length(cases)+size(header,1)
   )
 end

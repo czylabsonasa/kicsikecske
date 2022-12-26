@@ -1,4 +1,6 @@
 #!/home/nosy/bin/julia
+dbg=false
+
 include("util.jl")
 
 tic,toc=mktictoc()
@@ -6,7 +8,6 @@ tic,toc=mktictoc()
 
 tic()
 cl_pars=length(ARGS)>0 ? ARGS : nothing
-dbg=false
 deps=[
   "DataStructures", # 11,12: Queue
   "Printf","PrettyTables" # 
@@ -21,7 +22,7 @@ msg("getting up: $(round(toc(),digits=2)) sec\n")
 for akt in cl_pars
   tic()
   include("$(akt)/$(akt).jl")
-  part1,part2,n_cases=eval(Meta.parse("$(akt)()"))
+  part1,part2,cases=eval(Meta.parse("$(akt)()"))
 
   printstyled("\n"*"-o-"^15*"\n",color=40)
   msg(" include $(akt).jl: $(round(toc(),digits=2)) sec\n")
@@ -30,7 +31,7 @@ for akt in cl_pars
   for (part,part_name) in [(part1,"part1"),(part2,"part2")] 
     (part===nothing) && continue
     msg("  $(part_name)\n")
-    what=(akt=akt,part=part,n_cases=n_cases,part_name=part_name)
+    what=(akt=akt,part=part,cases=cases,part_name=part_name)
     tic()
     res=runit(what)
     msg("   run:   $(round(toc(),digits=2))\n")

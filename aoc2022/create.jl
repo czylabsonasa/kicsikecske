@@ -33,4 +33,17 @@ if !isfile("$(target)/$(target).jl")
   end
 end
 
+touch(f)=if !isfile(f)
+  open(f,"w") do fh
+    nothing
+  end
+end
+
+
+for f in 1:2
+  touch("$(target)/$(f).in")
+  touch("$(target)/part1.$(f).out")
+  touch("$(target)/part2.$(f).out")
+end
+
 println(stderr,"OK!")

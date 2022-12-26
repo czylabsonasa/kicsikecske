@@ -1,0 +1,1 @@
+* `julia -O0 tester.jl day13` is faster
